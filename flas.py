@@ -16,8 +16,7 @@ api= Api(app)
 class ml(Resource):
   def put(self):
       arr=args.parse_args()
-      
-      return text
+      return arr
 
 #this enables the api endpoits
 api.add_resource(ml,'/')
