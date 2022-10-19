@@ -1,4 +1,5 @@
 from distutils.log import debug
+import json
 import numpy as np
 from flask import Flask,request,jsonify
 from flask_restful import Api,Resource,reqparse
@@ -20,15 +21,16 @@ class ml(Resource):
     data = request.json
     savedmodel=open('studentmodel.pickle', 'rb')
     newlinear=pickle.load(savedmodel)
-    mine=[[5,401,4,2,16,2,16,8,2500]]
+    mine=[data['name']]
     mine=np.array(mine)
     #predict the outcome of your value(s)
     predictions=newlinear.predict(mine)
-
+    
 #loop through prediction to see if your data is corresponding well
     for x in range(len(predictions)):
         print(predictions[x])
         return jsonify(predictions[x])
+
 
 #this enables the api endpoints
 api.add_resource(ml,'/')
