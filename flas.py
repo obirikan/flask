@@ -16,42 +16,24 @@ import pickle
 app = Flask(__name__)
 CORS(app)
 
-
-#this is where you instantiate the endpoints
-# class ml(Resource):
-#   def get(self):
-#     data = request.json
-#     savedmodel=open('studentmodel.pickle', 'rb')
-#     newlinear=pickle.load(savedmodel)
-#     mine=[data['name']]
-#     mine=np.array(mine)
-
-#     #predict the outcome of your value(s)
-#     predictions=newlinear.predict(mine)
-    
-# #loop through prediction to see if your data is corresponding well
-#     for x in range(len(predictions)):
-#         return jsonify(prediction[x])
-
-
-# #this enables the api endpoints
-# api.add_resource(ml,'/get')
-
-
 @app.route('/get',methods =['POST'])
 def post_details():
     data = request.json
-    savedmodel=open('studentmodel.pickle', 'rb')
-    newlinear=pickle.load(savedmodel)
     mine=[data['name']]
     mine=np.array(mine)
+    savedmodel=open('heartprediction.pickle', 'rb')
+    newmodel=pickle.load(savedmodel)
 
+
+    myvalues=[[20, 0 ,3, 100 ,100, 0 , 1 ,100]]
+    
     #predict the outcome of your value(s)
-    predictions=newlinear.predict(mine)
+    predicted=newmodel.predict(mine)
+    names=['absense','presence']
     
 #loop through prediction to see if your data is corresponding well
-    for x in range(len(predictions)):
-        return jsonify(predictions[x])
+    for x in range(len(predicted)):
+        return jsonify(names[predicted[x]])
 
 #this starts the server
 if __name__ == "__main__":
